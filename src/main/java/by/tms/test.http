@@ -1,0 +1,22 @@
+
+GET http://localhost:8080/result
+
+###
+
+GET http://localhost:8080/calc?num1=2&num2=4&type=MULT
+
+###
+
+POST http://localhost:8080/reg
+Content-Type: application/x-www-form-urlencoded
+
+name=Test&login=test&password=12345
+
+###
+
+POST http://localhost:8080/auto
+Content-Type: application/x-www-form-urlencoded
+
+login=test&password=12345
+
+###
