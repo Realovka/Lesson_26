@@ -4,10 +4,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 @WebListener()
 public class Listener implements ServletContextListener,
@@ -17,7 +19,7 @@ public class Listener implements ServletContextListener,
     }
 
     public void contextInitialized(ServletContextEvent sce) {
-        sce.getServletContext().setAttribute("users", new ArrayList<>());
+//        sce.getServletContext().setAttribute("users", new ArrayList<>());
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -25,22 +27,34 @@ public class Listener implements ServletContextListener,
     }
 
     public void sessionCreated(HttpSessionEvent se) {
+       try{
+            Class.forName("org.postgresql.Driver");
+            se.getSession().setAttribute("connection", DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+                    "Vorobei55"));
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
+        public void sessionDestroyed (HttpSessionEvent se){
+            Connection connection = (Connection) se.getSession().getAttribute("connection");
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-    public void sessionDestroyed(HttpSessionEvent se) {
+        }
 
+        public void attributeAdded (HttpSessionBindingEvent sbe){
+            System.out.println(sbe.getValue());
+        }
+
+        public void attributeRemoved (HttpSessionBindingEvent sbe){
+
+        }
+
+        public void attributeReplaced (HttpSessionBindingEvent sbe){
+
+        }
     }
-
-    public void attributeAdded(HttpSessionBindingEvent sbe) {
-        System.out.println(sbe.getValue());
-    }
-
-    public void attributeRemoved(HttpSessionBindingEvent sbe) {
-
-    }
-
-    public void attributeReplaced(HttpSessionBindingEvent sbe) {
-
-    }
-}

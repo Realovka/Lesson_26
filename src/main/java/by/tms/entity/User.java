@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User {
-    private static int INTID=1;
-    private int id=INTID++;
+//    private static int INTID=1;
+    private int id;
 
     private String name;
     private String login;
@@ -15,6 +15,11 @@ public class User {
 
     public User(String name, String login, String password) {
         this.name = name;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }

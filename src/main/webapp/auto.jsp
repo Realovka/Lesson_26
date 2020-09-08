@@ -9,6 +9,9 @@
     Login<input type="text" name="login">
     Password<input type="password" name="password">
     <button>Authorization</button>
+    <c:if test="${sessionScope.errorAuthorization!=null}">
+        <p>${sessionScope.errorAuthorization}</p>
+    </c:if>
 </form>
 
 </body>

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = "/calc", name = "CalcServlet")
+@WebServlet(urlPatterns = "/calc")
 public class CalcServlet extends HttpServlet {
 
     List<Result> results = new ArrayList<>();
@@ -23,11 +23,13 @@ public class CalcServlet extends HttpServlet {
         System.out.println("Init first");
     }
 
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/calc.jsp").forward(req,resp);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String a = req.getParameter("num1");
         String b = req.getParameter("num2");
